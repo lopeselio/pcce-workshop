@@ -1,5 +1,6 @@
-require('dotenv').config()
 const HDWalletProvider = require('@truffle/hdwallet-provider');
+const fs = require('fs');
+const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 module.exports = {
   networks: {
@@ -9,7 +10,7 @@ module.exports = {
       network_id: "*",       // Any network (default: none)
     },
     liberty: {
-      provider: () => new HDWalletProvider(process.env.PRIVATE_KEY, `https://liberty20.shardeum.org/`),
+      provider: () => new HDWalletProvider(mnemonic, `https://liberty20.shardeum.org/`),
       network_id: 8081,
       confirmations: 2,
       timeoutBlocks: 200,
@@ -21,6 +22,7 @@ module.exports = {
   mocha: {
     // timeout: 100000
   },
+  plugins: ['truffle-plugin-verify'],
 
   // Configure your compilers
   compilers: {
